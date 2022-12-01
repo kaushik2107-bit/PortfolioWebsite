@@ -1,6 +1,6 @@
 import Navbar from "../Navbar/index"
 import { motion } from "framer-motion"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import emailjs from "emailjs-com"
 
 export default function Contact() {
@@ -12,14 +12,29 @@ export default function Contact() {
   const [error, setError] = useState(false)
   const [errorMsg, setErrorMsg] = useState("")
 
-  const isValidEmail = email => {
-    const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    return regex.test(String(email).toLowerCase())
+  const [success, setSuccess] = useState(false)
+
+  const isValidEmail = () => {
+    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+    return email.match(regex)
   }
 
+  useEffect(() => {
+    setError(false)
+    setSuccess(false)
+  }, [name, email, subject, message])
+
   const handleSubmit = () => {
+    setError(false)
+    setSuccess(false)
+
     if (name.length && email.length && subject.length && message.length) {
 
+      if (!isValidEmail()) {
+        setError(true)
+        setErrorMsg("Invalid Email Address")
+        return
+      }
 
       const serviceId = import.meta.env.VITE_SERVICE_ID
       const templateId = import.meta.env.VITE_TEMPLATE_ID
@@ -38,6 +53,7 @@ export default function Contact() {
       handleClear()
       setError(false)
       setErrorMsg("")
+      setSuccess(true)
       return
     } else {
       setError(true)
@@ -123,7 +139,8 @@ export default function Contact() {
           </div>
         </div>
       </motion.div>
-      { error && <motion.div className="w-fit min-w-[200px] bg-[#ff4242] text-[#ddd] font-extrabold text-center my-2 rounded-md px-4 p-2 border-2 border-red-500 shadow-2xl shadow-[#000] left-[50%] translate-x-[-50%] absolute opacity-0" animate={{opacity: 1, bottom: "10px"}}>{errorMsg}</motion.div>}
+      { error && <motion.div className="w-fit min-w-[200px] bg-[#ff4242] text-[#ddd] font-extrabold text-center my-2 rounded-md px-4 p-2 border-2 border-red-500 shadow-2xl shadow-[#000] left-[50%] translate-x-[-50%] absolute opacity-0" animate={{opacity: 1, bottom: "10px"}} exit={{opacity: 0}}>{errorMsg}</motion.div>}
+      { success && <motion.div className="w-fit min-w-[200px] bg-green-500 text-[#ddd] font-extrabold text-center my-2 rounded-md px-4 p-2 border-2 border-green-500 shadow-2xl shadow-[#000] left-[50%] translate-x-[-50%] absolute opacity-0" animate={{opacity: 1, bottom: "10px"}}>Message Sent Successfully</motion.div>}
     </div>
   )
 }
