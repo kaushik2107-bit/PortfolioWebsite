@@ -21,11 +21,11 @@ export default function Contact() {
     if (name.length && email.length && subject.length && message.length) {
 
 
-      const serviceId = import.meta.env.REACT_APP_SERVICE_ID
-      const templateId = import.meta.env.REACT_APP_TEMPLATE_ID
-      const userId = import.meta.env.REACT_APP_USER_ID
+      const serviceId = import.meta.env.VITE_SERVICE_ID
+      const templateId = import.meta.env.VITE_TEMPLATE_ID
+      const userId = import.meta.env.VITE_USER_ID
 
-      console.log(serviceId, templateId, userId)
+      // console.log(serviceId, templateId, userId)
 
       const templateParams = {
         name, email, message
