@@ -25,6 +25,8 @@ export default function Contact() {
       const templateId = import.meta.env.REACT_APP_TEMPLATE_ID
       const userId = import.meta.env.REACT_APP_USER_ID
 
+      console.log(serviceId, templateId, userId)
+
       const templateParams = {
         name, email, message
       }
