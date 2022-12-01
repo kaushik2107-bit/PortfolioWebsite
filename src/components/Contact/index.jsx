@@ -19,11 +19,6 @@ export default function Contact() {
     return email.match(regex)
   }
 
-  useEffect(() => {
-    setError(false)
-    setSuccess(false)
-  }, [name, email, subject, message])
-
   const handleSubmit = () => {
     setError(false)
     setSuccess(false)
@@ -51,9 +46,9 @@ export default function Contact() {
                 .then(error => console.log(error));
 
       handleClear()
+      setSuccess(true)
       setError(false)
       setErrorMsg("")
-      setSuccess(true)
       return
     } else {
       setError(true)
